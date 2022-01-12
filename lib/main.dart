@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:test1/db/database_provider.dart';
 import 'package:test1/model/note_model.dart';
+import 'package:test1/screen/about_note.dart';
 import 'package:test1/screen/add_note.dart';
 import 'package:test1/screen/display_note.dart';
 
@@ -12,12 +13,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+       theme: ThemeData(
+       scaffoldBackgroundColor: const Color(0xFF000051),
+       appBarTheme: AppBarTheme(
+      color: const Color(0xFF000051),
+      )),   
       //menggunakan routes untuk berpindah antara layar
       initialRoute: "/",
       routes: {
         "/" : (context) => HomeSreen(),
         "/AddNote": (context) => AddNote(),
         "/ShowNote": (context) => ShowNote(),
+        "/about": (context) => about(),
       },
     );
   }
@@ -41,6 +48,7 @@ class _HomeSreenState extends State<HomeSreen> {
       //membuat future build untuk menampilkan elemen
       appBar: AppBar(
         title: Text("Your Notes"),
+        
       ),
       body: FutureBuilder(
         future: getNotes(),
@@ -53,10 +61,10 @@ class _HomeSreenState extends State<HomeSreen> {
             case ConnectionState.done:
             {
               if(noteData.data == Null){
-                return Center(child: Text("Kamu belum memiliki notes"),);
+                return Center(child: Text("Kamu belum memiliki notes",style: TextStyle(color: Colors.white),),);
               }else{
                 return Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(15.0),
                   child: ListView.builder(
                     itemCount: noteData.data.length,
                     itemBuilder: (context, index){
@@ -65,20 +73,31 @@ class _HomeSreenState extends State<HomeSreen> {
                       String creation_date = noteData.data[index]['creation_date'];
                       int id = noteData.data[index]['id'];
                       return Card(
-                        child: ListTile(
-                          onTap: () {
-                            
-                            Navigator.pushNamed(context, "/ShowNote", 
-                            arguments: 
-                              NoteModel(
-                                title: title,
-                                body: body,
-                                creation_date: DateTime.parse(creation_date),
-                                id: id
-                            ));
-                          },
-                          title: Text(title),
-                          subtitle: Text(body),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ListTile(
+                              contentPadding: const EdgeInsets.all(15.0),
+                              onTap: () {
+                                Navigator.pushNamed(context, "/ShowNote", 
+                                arguments: 
+                                  NoteModel(
+                                    title: title,
+                                    body: body,
+                                    creation_date: DateTime.parse(creation_date),
+                                    id: id
+                                ));
+                              },
+                              title: Text(title,style: TextStyle(fontWeight: FontWeight.bold),),
+                              subtitle: Text(body),
+                            ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            Text(creation_date),
+                          ],
+                        )
+                          ],
                         ),
                       );
                     },
@@ -89,12 +108,37 @@ class _HomeSreenState extends State<HomeSreen> {
           }
         },
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: (){
           Navigator.pushNamed(context, "/AddNote");
         },
-        child: Icon(Icons.note_add),
+       // backgroundColor: Colors.white,
+        child: Icon(Icons.add),
       ),
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            IconButton(
+              onPressed: () {
+                //Navigator.pushNamed(context, "/");
+                Navigator.pushNamedAndRemoveUntil(context, "/", (route) => false);
+              },
+              icon: Icon(Icons.home,color: Color(0xFF000051),
+              ),
+              ),
+            IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, "/about");
+              },
+              icon: Icon(Icons.assignment_ind_rounded,color: Color(0xFF000051),
+              ),
+              ),
+          ],
+        ),
+        ),
+
     );
   }
 }

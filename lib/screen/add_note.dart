@@ -31,23 +31,26 @@ class _AddNoteState extends State<AddNote> {
       body: Padding(padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
       child: Column(
         children: [
-          TextField(
+          TextFormField(
             controller: titleController,
             decoration: InputDecoration(
+              hintStyle: TextStyle(color: Colors.white),
               border: InputBorder.none,
               hintText: "Note Title",
             ),
-            style: TextStyle(fontSize: 28.0, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 28.0, fontWeight: FontWeight.bold,color: Colors.white),
           ),
           Expanded(
-            child: TextField(
+            child: TextFormField(
               controller: bodyController,
               keyboardType: TextInputType.multiline,
               maxLines: null,
-              decoration: InputDecoration(
+               decoration: InputDecoration(
+                 hintStyle: TextStyle(color: Colors.white),
                 border: InputBorder.none,
-                hintText: "ceritakan kisahmu disini..."
+                hintText: "ceritakan kisahmu disini...",
               ),
+              style: TextStyle(color: Colors.white),
           ))
         ],)
       ),

@@ -20,19 +20,30 @@ class ShowNote extends StatelessWidget {
           },)
         ],
       ),
-      body: Column(
-        children: [
-          Text(
-            note.title,
-            style: TextStyle(fontSize: 28.0, fontWeight: FontWeight.bold),
-            ),
-          SizedBox(height: 16.0,),
-          Text(
-            note.body,
-            style: TextStyle(fontSize: 18.0),
-          )
-        ],
-        ),
+      body: Container(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              note.title,
+              style: TextStyle(fontSize: 28.0, fontWeight: FontWeight.bold,color: Colors.white),
+              ),
+            SizedBox(height: 16.0,),
+            Text(
+              note.body,
+              style: TextStyle(fontSize: 18.0,color: Colors.white),
+            )
+          ],
+          ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamedAndRemoveUntil(context, "/", (route) => false);
+        },
+        child: Icon(Icons.arrow_back_rounded),
+        
+      ),
     );
   }
 }
