@@ -1,2 +1,2 @@
 My first Flutter app !!!!<br>
-buid using flutter and sqflite as database!
+build using flutter and sqflite as database!
